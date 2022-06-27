@@ -2,34 +2,58 @@ import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 const RockPaperScissors = ({ username, roomUsers, room, socket, game }) => {
-  const [number, setNumber] = useState(0);
+  const [playerChoice, setPlayerChoice] = useState("");
+  const [winner, setWinner] = useState("");
+  const [firstPlayer, setFirstPlayer] = useState("");
+  const [secondPlayer, setSecondPlayer] = useState("");
+  const [selection, setSelection] = useState("");
 
-  const add = () => {
-    socket.emit("add-number", number, room);
-    setNumber(number + 1);
-  };
+  useEffect(() => {
+    const player = {
+      name: username,
+      room: room,
+      selection: playerChoice,
+    };
+    socket.emit("player-choice", player);
+  }, [playerChoice]);
 
-  socket.on("updated-number", (number) => {
-    setNumber(number.number);
+  socket.on("check-winner", (winner) => {
+    console.log(winner);
+    setWinner(winner.winner);
   });
 
-  const subtract = () => {
-    socket.emit("subtract-number", number, room);
-    setNumber(number - 1);
+  const playerChoiceSetter = (event) => {
+    setPlayerChoice(event.target.value);
   };
 
   return (
     <div>
-      <div>
-        <h1>Push the Button</h1>
-        <h1>{number}</h1>
-        <Button onClick={add} variant="contained" color="primary">
-          Add 1
-        </Button>
-        <Button onClick={subtract} variant="contained" color="primary">
-          Minus 1
-        </Button>
-      </div>
+      {winner && <h1>Winner: {winner}!!!!!</h1>}
+      <Button
+        onClick={playerChoiceSetter}
+        value="rock"
+        variant="contained"
+        color="primary"
+      >
+        Rock
+      </Button>
+      <Button
+        onClick={playerChoiceSetter}
+        value="paper"
+        variant="contained"
+        color="primary"
+      >
+        Paper
+      </Button>
+      <Button
+        onClick={playerChoiceSetter}
+        value="scissors"
+        variant="contained"
+        color="primary"
+      >
+        Scissors
+      </Button>
+      <h1>{playerChoice}</h1>
     </div>
   );
 };

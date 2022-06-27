@@ -1,0 +1,26 @@
+#board2 {
+  display: grid;
+  width: 700px;
+  height: 700px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  background-color: rgb(41, 112, 187);
+}
+
+.dark {
+  background-color: rgb(41, 112, 187);
+}
+.dark:hover {
+  background-color: rgb(56, 126, 202);
+}
+
+.light {
+  background-color: rgb(196, 158, 205);
+}
+.light:hover {
+  background-color: rgb(226, 181, 236);
+}
+
+button {
+  cursor: pointer;
+}
