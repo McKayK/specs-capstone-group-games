@@ -49,6 +49,11 @@ io.on("connection", (socket) => {
     console.log(`User: ${username} joined room: ${room}, game ${game}`);
   });
 
+  //Player leaves a game
+  socket.on("leave-game", (data) => {
+    console.log(data);
+  });
+
   //Rock Paper Scissors
   socket.on("player-choice", (data) => {
     let winner;
@@ -56,6 +61,22 @@ io.on("connection", (socket) => {
 
     player.playerChoice = data.selection;
     const game = players.filter((e) => e.room === player.room);
+
+    console.log("GAME: ", game);
+
+    //Player leaves a game
+    socket.on("leave-game", (data) => {
+      const index = game.findIndex((elem) => {
+        return elem.username === data.name;
+      });
+
+      if (index !== -1) {
+        game.splice(index, 1);
+      }
+
+      console.log(`Player ${data.name} left the game`);
+      console.log(game);
+    });
 
     if (game.length > 1) {
       if (game[0].playerChoice !== "" && game[1].playerChoice !== "") {
@@ -98,7 +119,6 @@ io.on("connection", (socket) => {
         io.sockets.in(data.room).emit("check-winner", { winner: winner });
       }
     }
-    console.log(game);
   });
 
   //Tic Tac Toe

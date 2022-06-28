@@ -6,7 +6,7 @@ const TicTacToe = ({ game, socket, username, roomUsers, room }) => {
 
   const handleUserChoice = (event) => {
     setPlayerChoice(event.target.value);
-    console.log("hit");
+    console.log(event.target.value);
   };
 
   const verticalAxis = [1, 2, 3];

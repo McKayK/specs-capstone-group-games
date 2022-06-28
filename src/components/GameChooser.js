@@ -56,11 +56,21 @@ const GameChooser = ({
   };
 
   const handleBack = () => {
+    const player = {
+      name: username,
+      room: room,
+    };
+    socket.emit("leave-game", player);
     setReadyToPlay(false);
     setGame("");
   };
 
   const handleHomeButton = () => {
+    const player = {
+      name: username,
+      room: room,
+    };
+    socket.emit("leave-game", player);
     setJoinedStatus(false);
     setReadyToPlay(false);
     setGame("");
