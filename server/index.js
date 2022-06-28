@@ -3,7 +3,6 @@ const app = express();
 const http = require("http");
 const cors = require("cors");
 const { Server } = require("socket.io");
-const { Socket } = require("dgram");
 
 app.use(cors());
 
@@ -24,6 +23,8 @@ class Players {
     this.game = game;
     this.playerChoice = playerChoice;
     this.joinPosition = joinPosition;
+    this.turn = true;
+    this.value = "";
   }
 }
 
@@ -122,11 +123,14 @@ io.on("connection", (socket) => {
   });
 
   //Tic Tac Toe
-  const top = [];
-  const middle = [];
-  const bottom = [];
-  const diagonalLeft = [];
-  const diagonalRight = [];
+  let top = [];
+  let middle = [];
+  let bottom = [];
+  let leftCol = [];
+  let middleCol = [];
+  let rightCol = [];
+  let diagonalLeft = [];
+  let diagonalRight = [];
 
   socket.on("tic-choice", (data) => {
     const player = players.filter((e) => e.id === socket.id)[0];
@@ -134,46 +138,171 @@ io.on("connection", (socket) => {
     player.playerChoice = data.selection;
     const game = players.filter((e) => e.room === player.room);
 
-    let turn = game[0].username;
+    // console.log("GAME: ", game);
 
-    if (data.selection.includes("1a")) {
-      top.push(turn);
-      diagonalLeft.push(turn);
-    } else if (data.selection.includes("1b")) {
-      top.push(turn);
-    } else if (data.selection.includes("1c")) {
-      top.push(turn);
-      diagonalRight.push(turn);
-    } else if (data.selection.includes("2a")) {
-      middle.push(turn);
-    } else if (data.selection.includes("2b")) {
-      middle.push(turn);
-      diagonalLeft.push(turn);
-      diagonalRight.push(turn);
-    } else if (data.selection.includes("2c")) {
-      middle.push(turn);
-    } else if (data.selection.includes("3a")) {
-      bottom.push(turn);
-      diagonalRight.push(turn);
-    } else if (data.selection.includes("3b")) {
-      bottom.push(turn);
-    } else if (data.selection.includes("3c")) {
-      bottom.push(turn);
-      diagonalLeft.push(turn);
+    //Player leaves a game
+    socket.on("leave-game", (data) => {
+      const index = game.findIndex((elem) => {
+        return elem.username === data.name;
+      });
+
+      if (index !== -1) {
+        game.splice(index, 1);
+      }
+
+      console.log(`Player ${data.name} left the game`);
+      console.log(game);
+    });
+
+    socket.on("send-userChoice", (test) => {
+      io.sockets.in(data.room).emit("receive-choice", { data: test });
+    });
+
+    if (game.length >= 2) {
+      if (game[0].turn && game[1].turn) {
+        game[0].turn = true;
+        game[0].value = "x";
+        game[1].turn = false;
+        game[1].value = "o";
+      }
     }
 
-    console.log(
-      "top: ",
-      top,
-      "middle: ",
-      middle,
-      "bottom: ",
-      bottom,
-      "diagonal left: ",
-      diagonalLeft,
-      "diagonal right: ",
-      diagonalRight
-    );
+    const turnChanger = () => {
+      if (game[0].turn) {
+        game[1].turn = true;
+        game[0].turn = false;
+      } else if (game[1].turn) {
+        game[0].turn = true;
+        game[1].turn = false;
+      }
+    };
+
+    if (game.length >= 2) {
+      // const playerTurn = game[0].turn ? game[0].username : game[1].username;
+      const playerTurn = game[0].turn ? game[0] : game[1];
+      console.log("hit: ", data.name);
+      if (data.name === playerTurn.username) {
+        if (data.selection.includes("1a")) {
+          top.push(playerTurn.username);
+          leftCol.push(playerTurn.username);
+          diagonalLeft.push(playerTurn.username);
+          turnChanger();
+          //sends user and which cell they choose
+          io.sockets
+            .in(data.room)
+            .emit("XorO", { selection: data.selection, player: playerTurn });
+        } else if (data.selection.includes("1b")) {
+          top.push(playerTurn.username);
+          middleCol.push(playerTurn.username);
+          turnChanger();
+          io.sockets
+            .in(data.room)
+            .emit("XorO", { selection: data.selection, player: playerTurn });
+        } else if (data.selection.includes("1c")) {
+          top.push(playerTurn.username);
+          rightCol.push(playerTurn.username);
+          diagonalRight.push(playerTurn.username);
+          turnChanger();
+          io.sockets
+            .in(data.room)
+            .emit("XorO", { selection: data.selection, player: playerTurn });
+        } else if (data.selection.includes("2a")) {
+          middle.push(playerTurn.username);
+          leftCol.push(playerTurn.username);
+          turnChanger();
+          io.sockets
+            .in(data.room)
+            .emit("XorO", { selection: data.selection, player: playerTurn });
+        } else if (data.selection.includes("2b")) {
+          middle.push(playerTurn.username);
+          middleCol.push(playerTurn.username);
+          diagonalLeft.push(playerTurn.username);
+          diagonalRight.push(playerTurn.username);
+          turnChanger();
+          io.sockets
+            .in(data.room)
+            .emit("XorO", { selection: data.selection, player: playerTurn });
+        } else if (data.selection.includes("2c")) {
+          middle.push(playerTurn.username);
+          rightCol.push(playerTurn.username);
+          turnChanger();
+          io.sockets
+            .in(data.room)
+            .emit("XorO", { selection: data.selection, player: playerTurn });
+        } else if (data.selection.includes("3a")) {
+          bottom.push(playerTurn.username);
+          leftCol.push(playerTurn.username);
+          diagonalRight.push(playerTurn.username);
+          turnChanger();
+          io.sockets
+            .in(data.room)
+            .emit("XorO", { selection: data.selection, player: playerTurn });
+        } else if (data.selection.includes("3b")) {
+          bottom.push(playerTurn.username);
+          middleCol.push(playerTurn.username);
+          turnChanger();
+          io.sockets
+            .in(data.room)
+            .emit("XorO", { selection: data.selection, player: playerTurn });
+        } else if (data.selection.includes("3c")) {
+          bottom.push(playerTurn.username);
+          rightCol.push(playerTurn.username);
+          diagonalLeft.push(playerTurn.username);
+          turnChanger();
+          io.sockets
+            .in(data.room)
+            .emit("XorO", { selection: data.selection, player: playerTurn });
+        }
+      }
+    }
+
+    const checkWinner = (arr) =>
+      arr.every((elem) => elem === arr[0] && arr.length === 3);
+
+    let winner;
+
+    if (checkWinner(top)) {
+      winner = top[0];
+    } else if (checkWinner(middle)) {
+      winner = middle[0];
+    } else if (checkWinner(bottom)) {
+      winner = bottom[0];
+    } else if (checkWinner(leftCol)) {
+      winner = leftCol[0];
+    } else if (checkWinner(middleCol)) {
+      winner = middleCol[0];
+    } else if (checkWinner(rightCol)) {
+      winner = rightCol[0];
+    } else if (checkWinner(diagonalLeft)) {
+      winner = diagonalLeft[0];
+    } else if (checkWinner(diagonalRight)) {
+      winner = diagonalRight[0];
+    }
+
+    //send winner to front end
+
+    if (winner) {
+      io.sockets.in(data.room).emit("winner", { winner: winner });
+    }
+
+    //   console.log(
+    //     "top: ",
+    //     top,
+    //     "middle: ",
+    //     middle,
+    //     "bottom: ",
+    //     bottom,
+    //     "left column: ",
+    //     leftCol,
+    //     "middle column: ",
+    //     middleCol,
+    //     "right column: ",
+    //     rightCol,
+    //     "diagonal left: ",
+    //     diagonalLeft,
+    //     "diagonal right: ",
+    //     diagonalRight
+    //   );
   });
 
   socket.on("disconnect", () => {
