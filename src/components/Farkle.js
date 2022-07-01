@@ -4,16 +4,10 @@ import "./Farkle.css";
 
 const Farkle = ({ game, socket, username, roomUsers, room }) => {
   const [roll, setRoll] = useState(false);
-  const [player1Roll, setPlayer1Roll] = useState([
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-  ]);
   const [player1, setPlayer1] = useState("");
   const [player1Keep, setPlayer1Keep] = useState("");
+  const [playerStay, setPlayerStay] = useState([]);
+  const [stayStatus, setStayStatus] = useState(false);
   const [player1Score, setPlayer1Score] = useState(0);
   const [player2, setPlayer2] = useState("");
   const [player2Score, setPlayer2Score] = useState(0);
@@ -32,10 +26,11 @@ const Farkle = ({ game, socket, username, roomUsers, room }) => {
       room: room,
       roll: roll,
       keep: player1Keep,
-      playerRoll: player1Roll,
+      stay: playerStay,
+      stayStatus: stayStatus,
     };
     socket.emit("start-game", player);
-  }, [roll]);
+  }, [roll, stayStatus]);
 
   const handleRoll = () => {
     setRoll(true);
@@ -51,7 +46,19 @@ const Farkle = ({ game, socket, username, roomUsers, room }) => {
     });
   };
 
+  const stay = () => {
+    setPlayer1Keep("");
+    setStayStatus(true);
+  };
+
   //Sockets
+  socket.on("calculate-score", (data) => {
+    setPlayer1Score((preValue) => {
+      console.log("prevalue: ", preValue);
+      return data.score;
+    });
+  });
+
   socket.on("players", (data) => {
     if (data[0]) {
       setPlayer1(data[0].username);
@@ -65,25 +72,18 @@ const Farkle = ({ game, socket, username, roomUsers, room }) => {
     if (data[3]) {
       setPlayer4(data[3].username);
     }
-    // console.log(data);
   });
 
   socket.on("roll", (data) => {
     setRoll(data.rollStatus);
-
-    // const diceValue =
-    //   +data.dice.one.split(".png")[0] +
-    //   " " +
-    //   +data.dice.two.split(".png")[0] +
-    //   " " +
-    //   +data.dice.three.split(".png")[0] +
-    //   " " +
-    //   +data.dice.four.split(".png")[0] +
-    //   " " +
-    //   +data.dice.five.split(".png")[0] +
-    //   " " +
-    //   +data.dice.six.split(".png")[0];
-    // console.log(diceValue);
+    setPlayerStay([
+      data.dice[0],
+      data.dice[1],
+      data.dice[2],
+      data.dice[3],
+      data.dice[4],
+      data.dice[5],
+    ]);
 
     if (data.username === player1) {
       setDice(
@@ -384,9 +384,15 @@ const Farkle = ({ game, socket, username, roomUsers, room }) => {
         {player1 && (
           <div className="player-card">
             <h3>{player1.toUpperCase()}</h3>
+
+            {player1Score && (
+              <div className="score">
+                <h1>{player1Score}</h1>
+              </div>
+            )}
             {dice}
             <div className="mui-button">
-              <Button variant="contained" color="primary">
+              <Button onClick={stay} variant="contained" color="primary">
                 Stay
               </Button>
             </div>
@@ -397,7 +403,7 @@ const Farkle = ({ game, socket, username, roomUsers, room }) => {
             <h3>{player2.toUpperCase()}</h3>
             {dice2}
             <div className="mui-button">
-              <Button variant="contained" color="primary">
+              <Button onClick={stay} variant="contained" color="primary">
                 Stay
               </Button>
             </div>
@@ -408,7 +414,7 @@ const Farkle = ({ game, socket, username, roomUsers, room }) => {
             <h3>{player3.toUpperCase()}</h3>
             {dice3}
             <div className="mui-button">
-              <Button variant="contained" color="primary">
+              <Button onClick={stay} variant="contained" color="primary">
                 Stay
               </Button>
             </div>
@@ -420,6 +426,7 @@ const Farkle = ({ game, socket, username, roomUsers, room }) => {
             {dice4}
             <div className="mui-button">
               <Button
+                onClick={stay}
                 sx={{ paddingTop: 100 }}
                 variant="contained"
                 color="primary"
