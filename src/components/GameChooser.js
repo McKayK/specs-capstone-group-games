@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import RockPaperScissors from "./RockPaperScissors";
 import TicTacToe from "./TicTacToe";
 import Checkers from "./Checkers";
+import Farkle from "./Farkle";
 
 const GameChooser = ({
   game,
@@ -36,9 +37,9 @@ const GameChooser = ({
           room={room}
         />
       );
-    } else if (game === "checkers") {
+    } else if (game === "farkle") {
       return (
-        <Checkers
+        <Farkle
           game={game}
           socket={socket}
           username={username}
@@ -99,11 +100,11 @@ const GameChooser = ({
           </Button>
           <Button
             onClick={handleGame}
-            value="checkers"
+            value="farkle"
             variant="contained"
             color="primary"
           >
-            Checkers
+            Farkle
           </Button>
         </div>
       ) : (

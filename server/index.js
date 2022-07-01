@@ -24,7 +24,8 @@ class Players {
     this.playerChoice = playerChoice;
     this.joinPosition = joinPosition;
     this.turn = true;
-    this.value = "";
+    this.rollStatus = true;
+    this.dice = this.value = "";
   }
 }
 
@@ -76,7 +77,7 @@ io.on("connection", (socket) => {
       }
 
       console.log(`Player ${data.name} left the game`);
-      console.log(game);
+      // console.log(game);
     });
 
     if (game.length > 1) {
@@ -116,6 +117,7 @@ io.on("connection", (socket) => {
         }
         game[0].playerChoice = "";
         game[1].playerChoice = "";
+        console.log(winner);
         // io.sockets.to(data.room).emit("check-winner", { winner: winner });
         io.sockets.in(data.room).emit("check-winner", { winner: winner });
       }
@@ -151,12 +153,14 @@ io.on("connection", (socket) => {
       }
 
       console.log(`Player ${data.name} left the game`);
-      console.log(game);
+      // console.log(game);
     });
 
-    socket.on("send-userChoice", (test) => {
-      io.sockets.in(data.room).emit("receive-choice", { data: test });
-    });
+    if (game.length >= 2) {
+      io.sockets.in(data.room).emit("get-matchup", {
+        matchup: `${game[0].username} vs. ${game[1].username}`,
+      });
+    }
 
     if (game.length >= 2) {
       if (game[0].turn && game[1].turn) {
@@ -178,9 +182,7 @@ io.on("connection", (socket) => {
     };
 
     if (game.length >= 2) {
-      // const playerTurn = game[0].turn ? game[0].username : game[1].username;
       const playerTurn = game[0].turn ? game[0] : game[1];
-      console.log("hit: ", data.name);
       if (data.name === playerTurn.username) {
         if (data.selection.includes("1a")) {
           top.push(playerTurn.username);
@@ -249,9 +251,10 @@ io.on("connection", (socket) => {
           rightCol.push(playerTurn.username);
           diagonalLeft.push(playerTurn.username);
           turnChanger();
-          io.sockets
-            .in(data.room)
-            .emit("XorO", { selection: data.selection, player: playerTurn });
+          io.sockets.in(data.room).emit("XorO", {
+            selection: data.selection,
+            player: playerTurn,
+          });
         }
       }
     }
@@ -279,10 +282,32 @@ io.on("connection", (socket) => {
       winner = diagonalRight[0];
     }
 
-    //send winner to front end
+    // socket.on("leave-game", (data) => {
+    //   const index = game.findIndex((elem) => {
+    //     return elem.username === data.name;
+    //   });
 
+    // if (!winner) {
+    //   const loser = [game[0], game[1]].findIndex((elem) => {
+    //     return elem.username !== winner;
+    //   });
+    //   const player = game.splice(loser, 1);
+    //   game.push(player);
+    //   console.log(game);
+    // }
+
+    //send winner to front end
     if (winner) {
+      console.log(winner);
       io.sockets.in(data.room).emit("winner", { winner: winner });
+      top = [];
+      middle = [];
+      bottom = [];
+      leftCol = [];
+      middleCol = [];
+      rightCol = [];
+      diagonalLeft = [];
+      diagonalRight = [];
     }
 
     //   console.log(
@@ -303,6 +328,82 @@ io.on("connection", (socket) => {
     //     "diagonal right: ",
     //     diagonalRight
     //   );
+  });
+
+  //Farkle
+  socket.on("farkle-player", (data) => {
+    // const player = players.filter((e) => e.id === socket.id)[0];
+    // player.playerChoice = data.selection;
+    // const game = players.filter((e) => e.room === player.room);
+    // console.log(data);
+  });
+
+  socket.on("start-game", (data) => {
+    const player = players.filter((e) => e.id === socket.id)[0];
+
+    player.playerChoice = data.selection;
+    const game = players.filter((e) => e.room === player.room);
+
+    io.sockets.in(data.room).emit("players", game);
+
+    const index = players.findIndex((user) => {
+      return user.username === data.name;
+    });
+
+    const playerKeep = data.keep.split(",");
+    console.log(playerKeep);
+
+    let one;
+    let two;
+    let three;
+    let four;
+    let five;
+    let six;
+
+    const diceArray = [
+      `${Math.floor(Math.random() * 6 + 1)}.png`,
+      `${Math.floor(Math.random() * 6 + 1)}.png`,
+      `${Math.floor(Math.random() * 6 + 1)}.png`,
+      `${Math.floor(Math.random() * 6 + 1)}.png`,
+      `${Math.floor(Math.random() * 6 + 1)}.png`,
+      `${Math.floor(Math.random() * 6 + 1)}.png`,
+    ];
+
+    if (playerKeep[0]) {
+      one = playerKeep[0].split(" ");
+      diceArray.splice(0, 1, `${one[1]}.png`);
+    }
+    if (playerKeep[1]) {
+      two = playerKeep[1].split(" ");
+      diceArray.splice(1, 1, `${two[1]}.png`);
+    }
+    if (playerKeep[2]) {
+      three = playerKeep[2].split(" ");
+      diceArray.splice(2, 1, `${three[1]}.png`);
+    }
+    if (playerKeep[3]) {
+      four = playerKeep[3].split(" ");
+      diceArray.splice(3, 1, `${four[1]}.png`);
+    }
+    if (playerKeep[4]) {
+      five = playerKeep[4].split(" ");
+      diceArray.splice(4, 1, `${five[1]}.png`);
+    }
+    if (playerKeep[5]) {
+      six = playerKeep[5].split(" ");
+      diceArray.splice(5, 1, `${six[1]}.png`);
+    }
+    console.log(one);
+
+    console.log(data);
+    if (data.roll) {
+      if (data.playerRoll.length === 6) game[index].dice = diceArray;
+      game[index].rollStatus = false;
+
+      io.sockets.in(data.room).emit("roll", game[index]);
+    }
+
+    // io.sockets.in(data.room).emit("get-players", { players: game });
   });
 
   socket.on("disconnect", () => {

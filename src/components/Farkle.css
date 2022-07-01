@@ -1,0 +1,36 @@
+.players {
+  display: flex;
+  width: 50vw;
+  justify-content: space-around;
+  margin: 10px;
+}
+
+.dice {
+  display: flex;
+  justify-content: center;
+  width: 35vw;
+  flex-wrap: wrap;
+}
+
+.dice img {
+  max-height: 10vh;
+  max-width: 10vw;
+}
+
+.dice-button {
+  display: flex;
+}
+
+.player-card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+  border: 2px dotted black;
+}
+
+.mui-button {
+  padding-top: 20px;
+}
