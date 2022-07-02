@@ -24,14 +24,21 @@ function App() {
   return (
     <div className="App">
       {!joinedStatus ? (
-        <div>
+        <div
+          className="main-background"
+          style={{ backgroundImage: "url(images/virtualgamenight.png)" }}
+        >
+          <h1>WELCOME TO YOUR VIRTUAL GAME NIGHT!</h1>
+          <h2>To begin...</h2>
           <h2>Create A Room!</h2>
           <TextField
+            sx={{ background: "white" }}
             id=""
             label="Username"
             onChange={(event) => setUsername(event.target.value)}
           />
           <TextField
+            sx={{ background: "white" }}
             id=""
             label="Room Code"
             onChange={(event) => setRoom(event.target.value)}

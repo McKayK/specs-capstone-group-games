@@ -20,20 +20,25 @@ const Farkle = ({ game, socket, username, roomUsers, room }) => {
   const [dice3, setDice3] = useState();
   const [dice4, setDice4] = useState();
 
-  useEffect(() => {
+  const playerRolls = (value, stay) => {
     const player = {
       name: username,
       room: room,
-      roll: roll,
+      roll: value ? value : roll,
       keep: player1Keep,
       stay: playerStay,
-      stayStatus: stayStatus,
+      stayStatus: stay ? stay : stayStatus,
     };
     socket.emit("start-game", player);
-  }, [roll, stayStatus]);
+  };
 
-  const handleRoll = () => {
-    setRoll(true);
+  useEffect(() => {
+    playerRolls();
+  }, []);
+
+  const handleRoll = async () => {
+    await setRoll(true);
+    playerRolls(true);
   };
 
   const hold1 = (event) => {
@@ -49,14 +54,17 @@ const Farkle = ({ game, socket, username, roomUsers, room }) => {
   const stay = () => {
     setPlayer1Keep("");
     setStayStatus(true);
+    playerRolls(true, true);
   };
 
   //Sockets
   socket.on("calculate-score", (data) => {
-    setPlayer1Score((preValue) => {
-      console.log("prevalue: ", preValue);
-      return data.score;
-    });
+    console.log(data);
+    if (player1 === data.username) {
+      setPlayer1Score(data.score);
+    } else if (player2 === data.username) {
+      setPlayer2Score(data.score);
+    }
   });
 
   socket.on("players", (data) => {
@@ -401,6 +409,11 @@ const Farkle = ({ game, socket, username, roomUsers, room }) => {
         {player2 && (
           <div className="player-card">
             <h3>{player2.toUpperCase()}</h3>
+            {player2Score && (
+              <div className="score">
+                <h1>{player2Score}</h1>
+              </div>
+            )}
             {dice2}
             <div className="mui-button">
               <Button onClick={stay} variant="contained" color="primary">
