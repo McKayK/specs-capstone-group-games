@@ -98,69 +98,117 @@ const Farkle = ({ game, socket, username, roomUsers, room }) => {
         <div className="dice">
           <div className="dice-button">
             <img src={`images/${data.dice[0]}`} alt="die1" />
-            <Button
+            <button
+              onClick={hold1}
+              id="keep"
+              value={`1 ${+data.dice[0].split(".png")[0]}`}
+              className="neon button"
+            >
+              Keep
+            </button>
+            {/* <Button
               onClick={hold1}
               value={`1 ${+data.dice[0].split(".png")[0]}`}
               variant="contained"
               color="primary"
             >
               Keep
-            </Button>
+            </Button> */}
           </div>
           <div className="dice-button">
             <img src={`images/${data.dice[1]}`} alt="die2" />
-            <Button
+            <button
+              className="neon button"
+              id="keep"
+              onClick={hold1}
+              value={`2 ${+data.dice[1].split(".png")[0]}`}
+            >
+              Keep
+            </button>
+            {/* <Button
               onClick={hold1}
               variant="contained"
               value={`2 ${+data.dice[1].split(".png")[0]}`}
               color="primary"
             >
               Keep
-            </Button>
+            </Button> */}
           </div>
           <div className="dice-button">
             <img src={`images/${data.dice[2]}`} alt="die3" />
-            <Button
+            <button
+              onClick={hold1}
+              value={`3 ${+data.dice[2].split(".png")[0]}`}
+              className="neon button"
+              id="keep"
+            >
+              Keep
+            </button>
+            {/* <Button
               onClick={hold1}
               variant="contained"
               value={`3 ${+data.dice[2].split(".png")[0]}`}
               color="primary"
             >
               Keep
-            </Button>
+            </Button> */}
           </div>
           <div className="dice-button">
             <img src={`images/${data.dice[3]}`} alt="die4" />
-            <Button
+            <button
+              onClick={hold1}
+              value={`4 ${+data.dice[3].split(".png")[0]}`}
+              className="neon button"
+              id="keep"
+            >
+              Keep
+            </button>
+            {/* <Button
               onClick={hold1}
               variant="contained"
               value={`4 ${+data.dice[3].split(".png")[0]}`}
               color="primary"
             >
               Keep
-            </Button>
+            </Button> */}
           </div>
           <div className="dice-button">
             <img src={`images/${data.dice[4]}`} alt="die5" />
-            <Button
+            <button
+              onClick={hold1}
+              value={`5 ${+data.dice[4].split(".png")[0]}`}
+              className="neon button"
+              id="keep"
+            >
+              Keep
+            </button>
+            {/* <Button
               onClick={hold1}
               variant="contained"
               value={`5 ${+data.dice[4].split(".png")[0]}`}
               color="primary"
             >
               Keep
-            </Button>
+            </Button> */}
           </div>
           <div className="dice-button">
             <img src={`images/${data.dice[5]}`} alt="die6" />
-            <Button
+            <button
+              onClick={hold1}
+              value={`6 ${+data.dice[5].split(".png")[0]}`}
+              className="neon button"
+              id="keep"
+            >
+              Keep
+            </button>
+            {/* <Button
               onClick={hold1}
               variant="contained"
               value={`6 ${+data.dice[5].split(".png")[0]}`}
               color="primary"
             >
               Keep
-            </Button>
+            </Button> */}
           </div>
         </div>
       );
@@ -169,69 +217,117 @@ const Farkle = ({ game, socket, username, roomUsers, room }) => {
         <div className="dice">
           <div className="dice-button">
             <img src={`images/${data.dice[0]}`} alt="die1" />
-            <Button
+            <button
+              onClick={hold1}
+              id="keep"
+              value={`1 ${+data.dice[0].split(".png")[0]}`}
+              className="neon button"
+            >
+              Keep
+            </button>
+            {/* <Button
               onClick={hold1}
               value={`1 ${+data.dice[0].split(".png")[0]}`}
               variant="contained"
               color="primary"
             >
               Keep
-            </Button>
+            </Button> */}
           </div>
           <div className="dice-button">
             <img src={`images/${data.dice[1]}`} alt="die2" />
-            <Button
+            <button
+              className="neon button"
+              id="keep"
+              onClick={hold1}
+              value={`2 ${+data.dice[1].split(".png")[0]}`}
+            >
+              Keep
+            </button>
+            {/* <Button
               onClick={hold1}
               variant="contained"
               value={`2 ${+data.dice[1].split(".png")[0]}`}
               color="primary"
             >
               Keep
-            </Button>
+            </Button> */}
           </div>
           <div className="dice-button">
             <img src={`images/${data.dice[2]}`} alt="die3" />
-            <Button
+            <button
+              onClick={hold1}
+              value={`3 ${+data.dice[2].split(".png")[0]}`}
+              className="neon button"
+              id="keep"
+            >
+              Keep
+            </button>
+            {/* <Button
               onClick={hold1}
               variant="contained"
               value={`3 ${+data.dice[2].split(".png")[0]}`}
               color="primary"
             >
               Keep
-            </Button>
+            </Button> */}
           </div>
           <div className="dice-button">
             <img src={`images/${data.dice[3]}`} alt="die4" />
-            <Button
+            <button
+              onClick={hold1}
+              value={`4 ${+data.dice[3].split(".png")[0]}`}
+              className="neon button"
+              id="keep"
+            >
+              Keep
+            </button>
+            {/* <Button
               onClick={hold1}
               variant="contained"
               value={`4 ${+data.dice[3].split(".png")[0]}`}
               color="primary"
             >
               Keep
-            </Button>
+            </Button> */}
           </div>
           <div className="dice-button">
             <img src={`images/${data.dice[4]}`} alt="die5" />
-            <Button
+            <button
+              onClick={hold1}
+              value={`5 ${+data.dice[4].split(".png")[0]}`}
+              className="neon button"
+              id="keep"
+            >
+              Keep
+            </button>
+            {/* <Button
               onClick={hold1}
               variant="contained"
               value={`5 ${+data.dice[4].split(".png")[0]}`}
               color="primary"
             >
               Keep
-            </Button>
+            </Button> */}
           </div>
           <div className="dice-button">
             <img src={`images/${data.dice[5]}`} alt="die6" />
-            <Button
+            <button
+              onClick={hold1}
+              value={`6 ${+data.dice[5].split(".png")[0]}`}
+              className="neon button"
+              id="keep"
+            >
+              Keep
+            </button>
+            {/* <Button
               onClick={hold1}
               variant="contained"
               value={`6 ${+data.dice[5].split(".png")[0]}`}
               color="primary"
             >
               Keep
-            </Button>
+            </Button> */}
           </div>
         </div>
       );
@@ -385,13 +481,16 @@ const Farkle = ({ game, socket, username, roomUsers, room }) => {
   return (
     <div>
       {player1Keep}
-      <Button onClick={handleRoll} variant="contained" color="primary">
+      <button className="neon button" onClick={handleRoll}>
         Roll
-      </Button>
+      </button>
+      {/* <Button onClick={handleRoll} variant="contained" color="primary">
+        Roll
+      </Button> */}
       <div className="players">
         {player1 && (
           <div className="player-card">
-            <h3>{player1.toUpperCase()}</h3>
+            <h3 className="user">{player1.toUpperCase()}</h3>
 
             {player1Score && (
               <div className="score">
@@ -400,15 +499,18 @@ const Farkle = ({ game, socket, username, roomUsers, room }) => {
             )}
             {dice}
             <div className="mui-button">
-              <Button onClick={stay} variant="contained" color="primary">
+              <button className="neon button" onClick={stay}>
                 Stay
-              </Button>
+              </button>
+              {/* <Button onClick={stay} variant="contained" color="primary">
+                Stay
+              </Button> */}
             </div>
           </div>
         )}
         {player2 && (
           <div className="player-card">
-            <h3>{player2.toUpperCase()}</h3>
+            <h3 className="user">{player2.toUpperCase()}</h3>
             {player2Score && (
               <div className="score">
                 <h1>{player2Score}</h1>
@@ -416,36 +518,29 @@ const Farkle = ({ game, socket, username, roomUsers, room }) => {
             )}
             {dice2}
             <div className="mui-button">
-              <Button onClick={stay} variant="contained" color="primary">
+              <button className="neon button" onClick={stay}>
                 Stay
-              </Button>
+              </button>
             </div>
           </div>
         )}
         {player3 && (
           <div className="player-card">
-            <h3>{player3.toUpperCase()}</h3>
+            <h3 className="user">{player3.toUpperCase()}</h3>
             {dice3}
-            <div className="mui-button">
-              <Button onClick={stay} variant="contained" color="primary">
-                Stay
-              </Button>
-            </div>
+            <button className="neon button" onClick={stay}>
+              Stay
+            </button>
           </div>
         )}
         {player4 && (
           <div className="player-card">
-            <h3>{player4.toUpperCase()}</h3>
+            <h3 className="user">{player4.toUpperCase()}</h3>
             {dice4}
             <div className="mui-button">
-              <Button
-                onClick={stay}
-                sx={{ paddingTop: 100 }}
-                variant="contained"
-                color="primary"
-              >
+              <button className="neon button" onClick={stay}>
                 Stay
-              </Button>
+              </button>
             </div>
           </div>
         )}

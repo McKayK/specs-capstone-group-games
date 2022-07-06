@@ -64,12 +64,15 @@ const TicTacToe = ({ game, socket, username, roomUsers, room }) => {
     socket.on("XorO", (data) => {
       console.log(data);
       setSelection(data.player);
+      document.getElementById(data.player.playerChoice).className =
+        data.player.value;
       document.getElementById(data.player.playerChoice).innerText =
         data.player.value;
     });
 
     socket.on("get-matchup", (matchup) => {
       const players = matchup.matchup.split(" vs. ");
+      console.log(matchup);
       setPlayer1(players[0]);
       setPlayer2(players[1]);
       setMatchup(matchup.matchup);
@@ -84,10 +87,11 @@ const TicTacToe = ({ game, socket, username, roomUsers, room }) => {
 
   useEffect(() => {
     if (winner) {
-      if (winner === player1) {
+      console.log(winner);
+      if (winner.toUpperCase() === player1) {
         console.log("player 1 wins", winner);
         setPlayer1Score(player1Score + 1);
-      } else if (winner === player2) {
+      } else if (winner.toUpperCase() === player2) {
         setPlayer2Score(player2Score + 1);
       }
     }
@@ -102,28 +106,57 @@ const TicTacToe = ({ game, socket, username, roomUsers, room }) => {
     });
     setWinner("");
     newGame();
+    const x = document.querySelectorAll("button");
+
+    for (let i = 0; i < x.length; i++) {
+      // x[i].classList.remove("x").classList.remove('x', 'o')
+      if (x[i].classList.contains("x") || x[i].classList.contains("o")) {
+        x[i].classList.remove("x", "o");
+        x[i].classList.add("light");
+      }
+    }
   };
 
   return (
-    <div>
+    <div className="tic-board">
       <h1>Tic Tac Toe!</h1>
-      {matchup && <h1>Current Match: {matchup}</h1>}
+      {matchup && <h3>Current Match : {matchup}</h3>}
       {matchup && (
-        <div>
-          <h3>{player1}</h3>
-          <h4>{player1Score}</h4>
-          <h3>{player2}</h3>
-          <h4>{player2Score}</h4>
+        <div className="score">
+          <div className="player1">
+            <h1>{player1.toUpperCase()}</h1>
+            <h2 className="score">{player1Score}</h2>
+          </div>
+          <div>
+            <h2 className="winner">
+              {winner && `Winner : ${winner.toUpperCase()}!!!`}
+            </h2>
+            {winner && (
+              <button
+                id="next-game"
+                className="button neon"
+                onClick={handleNextGame}
+              >
+                Next Game
+              </button>
+              // <Button
+              //   onClick={handleNextGame}
+              //   variant="contained"
+              //   color="primary"
+              // >
+              //   Next Game
+              // </Button>
+            )}
+          </div>
+          <div className="player2">
+            <h1>{player2.toUpperCase()}</h1>
+            <h2 className="score">{player2Score}</h2>
+          </div>
         </div>
       )}
-      {winner && <h2>Winner: {winner}!!!</h2>}
+
       <div id="board2">{newGame()}</div>
       <br />
-      {winner && (
-        <Button onClick={handleNextGame} variant="contained" color="primary">
-          Next Game
-        </Button>
-      )}
     </div>
   );
 };

@@ -1,0 +1,85 @@
+.game-btn {
+  height: 400px;
+  width: 600px;
+  background-position: center;
+  background-size: cover;
+}
+
+.heading {
+  font-size: 50px;
+  text-shadow:
+    /* White glow */ 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff,
+    /* Green glow */ 0 0 42px #32baf9, 0 0 82px #32baf9, 0 0 92px #32baf9,
+    0 0 102px #32baf9, 0 0 151px #32baf9;
+  animation: flickerBlue 2s infinite alternate;
+}
+
+.games {
+  display: flex;
+  justify-content: space-around;
+}
+
+.neon {
+  padding: 20px 20px;
+  display: inline-block;
+  color: #ffffff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 1em;
+  background-color: #ff4eff;
+  box-shadow: 0 0 50px #32baf9;
+}
+
+.neon:hover {
+  background: #32baf9;
+  box-shadow: 0 0 50px #ff4eff;
+}
+
+.back-buttons {
+  display: flex;
+  /* height: 70vh; */
+  justify-content: center;
+  /* position: absolute;
+  bottom: 5px;
+  left: 38%; */
+  align-items: flex-end;
+  /* margin-top: 80px; */
+  position: fixed;
+
+  bottom: 0;
+  left: 18%;
+}
+
+.button {
+  margin: 10px;
+  border-radius: 10px;
+}
+
+/* .main-background {
+  display: inline-block;
+  position: relative;
+  height: 100vh;
+} */
+
+.back-buttons button {
+  animation: flickerBlue 5s infinite alternate;
+}
+
+@keyframes flickerBlue {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #32baf9,
+      0 0 80px #32baf9, 0 0 90px #32baf9, 0 0 100px #32baf9, 0 0 150px #32baf9;
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}

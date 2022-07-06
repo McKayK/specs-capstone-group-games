@@ -1,0 +1,28 @@
+.buttons {
+  height: 200px;
+  width: 200px;
+  border-radius: 35px;
+
+  background-position: center;
+  background-size: cover;
+}
+
+.rps-buttons {
+  display: flex;
+  margin-top: 100px;
+  justify-content: space-evenly;
+}
+
+.rock {
+  font-size: 145px;
+  color: blue;
+}
+
+/* .main-background {
+  display: inline-block;
+  height: 100vh;
+} */
+
+#rps-choice {
+  margin-top: 200px;
+}

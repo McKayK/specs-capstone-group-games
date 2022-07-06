@@ -1,6 +1,6 @@
 .players {
   display: flex;
-  width: 50vw;
+  width: 100vw;
   justify-content: space-around;
   margin: 10px;
 }
@@ -8,7 +8,7 @@
 .dice {
   display: flex;
   justify-content: center;
-  width: 35vw;
+  /* width: 35vw; */
   flex-wrap: wrap;
 }
 
@@ -29,8 +29,69 @@
   margin: 10px;
   padding: 10px;
   border: 2px dotted black;
+  max-height: 10vh;
 }
 
 .mui-button {
   padding-top: 20px;
+}
+
+.user {
+  margin: 20px;
+  animation: flickerBlue 3s infinite alternate;
+}
+
+.neon {
+  padding: 20px 20px;
+  display: inline-block;
+  color: #ffffff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 1em;
+  background-color: #ff4eff;
+  box-shadow: 0 0 50px #32baf9;
+}
+
+.neon:hover {
+  background: #32baf9;
+  box-shadow: 0 0 50px #ff4eff;
+}
+
+.button {
+  margin: 10px;
+  border-radius: 10px;
+}
+
+#keep {
+  /* width: 10%; */
+  /* font-size: 1px; */
+  background-color: #32baf9;
+  padding: 15px;
+  font-size: large;
+}
+#keep:hover {
+  /* width: 10%; */
+  /* font-size: 1px; */
+  background-color: #ff4eff;
+  padding: 15px;
+  font-size: large;
+}
+
+@keyframes flickerBlue {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #32baf9,
+      0 0 80px #32baf9, 0 0 90px #32baf9, 0 0 100px #32baf9, 0 0 150px #32baf9;
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
 }

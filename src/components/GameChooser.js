@@ -2,8 +2,9 @@ import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import RockPaperScissors from "./RockPaperScissors";
 import TicTacToe from "./TicTacToe";
-import Checkers from "./Checkers";
 import Farkle from "./Farkle";
+import "./GameChooser.css";
+import Chat from "./Chat";
 
 const GameChooser = ({
   game,
@@ -15,6 +16,7 @@ const GameChooser = ({
   setGame,
 }) => {
   const [readyToPlay, setReadyToPlay] = useState(false);
+  const [show, setShow] = useState(false);
 
   const gameSelection = () => {
     if (game === "rps") {
@@ -51,7 +53,7 @@ const GameChooser = ({
   };
 
   const handleGame = (event) => {
-    console.log(event.target.value);
+    console.log(event);
     setGame(event.target.value);
     setReadyToPlay(true);
   };
@@ -77,51 +79,101 @@ const GameChooser = ({
     setGame("");
   };
 
+  const changeShow = () => {
+    if (show) {
+      setShow(false);
+    } else {
+      setShow(true);
+    }
+  };
+
   return (
-    <div>
+    <div className="main-background">
       {!readyToPlay ? (
-        <div>
-          <h3>Select a game</h3>
-          <Button
+        <div className="main-background">
+          <h3 className="heading">Select a game</h3>
+          <div className="games">
+            <button
+              className="game-btn"
+              onClick={handleGame}
+              value="rps"
+              style={{
+                backgroundImage: "url(images/rockpaperscissors.png)",
+                borderRadius: "50px",
+              }}
+            ></button>
+            {/* <Button
             onClick={handleGame}
             value="rps"
             variant="contained"
             color="primary"
           >
             Rock Paper Scissors
-          </Button>
-          <Button
+          </Button> */}
+            <button
+              className="game-btn"
+              onClick={handleGame}
+              value="ttt"
+              style={{
+                backgroundImage: "url(images/tictactoe.png)",
+                borderRadius: "50px",
+              }}
+            ></button>
+            {/* <Button
             onClick={handleGame}
             value="ttt"
             variant="contained"
             color="primary"
           >
             Tic Tac Toe
-          </Button>
-          <Button
+          </Button> */}
+            <button
+              className="game-btn"
+              onClick={handleGame}
+              value="farkle"
+              style={{
+                backgroundImage: "url(images/farkle.png)",
+                borderRadius: "50px",
+              }}
+            ></button>
+            {/* <Button
             onClick={handleGame}
             value="farkle"
             variant="contained"
             color="primary"
           >
             Farkle
-          </Button>
+          </Button> */}
+          </div>
         </div>
       ) : (
-        <div>
+        <div className="main-background">
           {gameSelection()}
+          {show && <Chat socket={socket} room={room} username={username} />}
+
           <br />
           <br />
-          <Button onClick={handleBack} variant="contained" color="primary">
-            Back to game selector
-          </Button>
-          <Button
-            onClick={handleHomeButton}
-            variant="contained"
-            color="primary"
-          >
-            Home
-          </Button>
+          <div className="back-buttons">
+            <button className="neon button" onClick={handleBack}>
+              Back to game selector
+            </button>
+            {/* <Button onClick={handleBack} variant="contained" color="primary">
+              Back to game selector
+            </Button> */}
+            <button className="neon button" onClick={handleHomeButton}>
+              Home
+            </button>
+            <button onClick={changeShow} className="neon button" id="show-chat">
+              Chat
+            </button>
+            {/* <Button
+              onClick={handleHomeButton}
+              variant="contained"
+              color="primary"
+            >
+              Home
+            </Button> */}
+          </div>
         </div>
       )}
     </div>

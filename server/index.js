@@ -52,6 +52,11 @@ io.on("connection", (socket) => {
     console.log(`User: ${username} joined room: ${room}, game ${game}`);
   });
 
+  //chat
+  socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data);
+  });
+
   //Player leaves a game
   socket.on("leave-game", (data) => {
     console.log(data);
@@ -159,7 +164,7 @@ io.on("connection", (socket) => {
 
     if (game.length >= 2) {
       io.sockets.in(data.room).emit("get-matchup", {
-        matchup: `${game[0].username} vs. ${game[1].username}`,
+        matchup: `${game[0].username.toUpperCase()} vs. ${game[1].username.toUpperCase()}`,
       });
     }
 

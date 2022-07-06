@@ -1,26 +1,103 @@
 #board2 {
   display: grid;
-  width: 700px;
-  height: 700px;
+  width: 600px;
+  height: 600px;
+  margin: auto;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  background-color: rgb(41, 112, 187);
 }
 
 .dark {
-  background-color: rgb(41, 112, 187);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 .dark:hover {
-  background-color: rgb(56, 126, 202);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .light {
-  background-color: rgb(196, 158, 205);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 .light:hover {
-  background-color: rgb(226, 181, 236);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 button {
   cursor: pointer;
+}
+
+.x {
+  font-size: 100px;
+  color: white;
+  background-color: #5b2a5f;
+  animation: flickerBlue 7s infinite alternate;
+}
+.o {
+  font-size: 100px;
+  color: rgb(39, 39, 39);
+  animation: flickerPink 9s infinite alternate;
+  background-color: #3c787e;
+}
+
+.score {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.player1 {
+  display: flex;
+  width: 10%;
+  justify-content: space-evenly;
+}
+.player2 {
+  display: flex;
+  width: 10%;
+  justify-content: space-evenly;
+}
+
+.winner {
+  margin-bottom: 0;
+  margin-top: -10px;
+}
+
+.score {
+  margin-left: 25px;
+}
+
+#next-game {
+  background-color: #32baf9;
+}
+
+@keyframes flickerPink {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #ff4eff,
+      0 0 80px #ff4eff, 0 0 90px #ff4eff, 0 0 100px #ff4eff, 0 0 150px #ff4eff;
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}
+@keyframes flickerBlue {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #32baf9,
+      0 0 80px #32baf9, 0 0 90px #32baf9, 0 0 100px #32baf9, 0 0 150px #32baf9;
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
 }
