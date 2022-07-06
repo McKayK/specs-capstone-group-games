@@ -153,26 +153,32 @@ const GameChooser = ({
 
           <br />
           <br />
-          <div className="back-buttons">
-            <button className="neon button" onClick={handleBack}>
-              Back to game selector
-            </button>
-            {/* <Button onClick={handleBack} variant="contained" color="primary">
+          <div id="back-container">
+            <div className="back-buttons">
+              <button className="neon button" onClick={handleBack}>
+                Back to game selector
+              </button>
+              {/* <Button onClick={handleBack} variant="contained" color="primary">
               Back to game selector
             </Button> */}
-            <button className="neon button" onClick={handleHomeButton}>
-              Home
-            </button>
-            <button onClick={changeShow} className="neon button" id="show-chat">
-              Chat
-            </button>
-            {/* <Button
+              <button className="neon button" onClick={handleHomeButton}>
+                Home
+              </button>
+              <button
+                onClick={changeShow}
+                className="neon button"
+                id="show-chat"
+              >
+                Chat
+              </button>
+              {/* <Button
               onClick={handleHomeButton}
               variant="contained"
               color="primary"
             >
               Home
             </Button> */}
+            </div>
           </div>
         </div>
       )}

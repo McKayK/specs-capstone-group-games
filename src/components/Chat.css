@@ -93,7 +93,7 @@
   height: auto;
   min-height: 40px;
   max-width: 150px;
-  background-color: #4278d6;
+  background-color: #32baf9be;
   border-radius: 25px;
   color: white;
   display: flex;
@@ -116,6 +116,7 @@
 
 #you .message-meta {
   justify-content: flex-end;
+  color: black;
   margin-left: 5px;
 }
 
@@ -131,6 +132,8 @@
 
 #other .message-meta {
   justify-content: flex-start;
+  color: black;
+
   margin-right: 5px;
 }
 
@@ -173,12 +176,16 @@
   outline: none;
   font-size: 25px;
   color: white;
-  background-color: #4278d6;
+  background-color: #32baf9be;
   border-radius: 100px;
+  text-shadow:
+    /* White glow */ 0 0 2px #fff, 0 0 5px #fff, 0 0 5px #fff,
+    /* Green glow */ 0 0 42px #0fa, 0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa,
+    0 0 151px #0fa;
 }
 
 .chat-window .chat-footer button:hover {
-  background-color: #356dce;
+  background-color: #32baf9be;
   color: #d9d9d9;
 }
 .hide {
